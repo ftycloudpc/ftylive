@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>饭团直播间</title>
+  <link rel="icon" href="wzico.jpg">
+  <style>
+    .wrapper, body, html {
+      min-height: 100%;
+      background-image: url("bj.jpg");
+      background-size: cover;
+      background-position: 50%;
+      background-attachment: fixed;
+    }
+    
+
+    body {
+      margin: 0;
+      padding-bottom: 60px;
+    }
+    
+    .banner {
+      background-color: rgba(162, 30, 44, 0.5);
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      padding: 10px;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1;
+    }
+    
+    .logo {
+      width: 30px;
+      height: 30px;
+    }
+    
+    .content {
+      padding: 20px;
+      margin-top: 50px;
+      color: white;
+    }
+    
+    .content h2 {
+      text-align: center;
+    }
+    
+    .content img {
+      float: left;
+      max-width: 300px;
+      margin-right: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      padding: 10px;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+      color: white;
+      z-index: 1;
+    }
+
+    .banner-text {
+      color: white;
+      text-decoration: none;
+      overflow: hidden;
+      white-space: nowrap;
+      margin-left: 10px;
+    }
+
+  </style>
+  <!-- -------------部分弹窗所需引用---------------  -->
+  <link rel="stylesheet" href="jqtc/css/easyhelper.min.css">
+  <script src="jqtc/js/jquery-3.3.1.min.js"></script>
+  <script src="jqtc/js/es6-shim.min.js"></script>
+  <script src="jqtc/js/jquery.transit.min.js"></script>
+  <script src="jqtc/js/easyhelper.min.js"></script>
+  <!-- -------------部分弹窗所需引用-END---------------  -->
+
+</head>
+<body>
+  <div class="banner">
+    <img class="logo" src="wzico.jpg" alt="Logo">
+    <b class="banner-text">饭团直播间</B>
+  </div>
+  
+  <div class="content">
+    <h2 style="text-align: center;">饭团直播间</h2>
+    <b>饭团直播间欢迎您</b>
+    <b style="color: aquamarine;">按Ctrl+Q即可全屏播放器。</b>
+    <div>
+<!-- -------------播放器-头---------------  -->
+<div class="content">
+    <div id="dplayer"></div>
+     <script type="text/javascript" src="flv.min.js"></script>
+     <script src="Dplayer/DPlayer.min.js"></script>
+     <script src="demo.js" crossorigin="anonymous"></script>
+<!-- -------------播放器-尾---------------  -->
+</div>
+<div class="wrapper">
+	<button class="helper-button-info" id="zdgg">直播间公告</button>
+	<button class="helper-button-info" onclick="volumemax()">设大声音</button>
+</div>
+
+<script>
+	$( "#zdgg" ).on("click", function () {
+		Helper.ui.dialog({
+			title: "公告",
+			content: "饭团直播间公告<br>-----------------<br>1.本直播间当前无法聊天，等后面会更新！<br>2.本主播不说话，请勿以为卡了等！<br>3.本主播直播MC或科技类的直播！<br>4.直播间可能会卡住，请耐心等待！如果一直卡请刷新页面！如果刷新页面还不行，有可能是主播下播了或者是主播网络卡住！<br>感谢您来到本直播间，祝您观看愉快！",
+			darkMode: true
+		});
+	})
+</script>
+
+  <div class="content">
+    <b>如果主播没有开播，你可以先去其他网站看看或者玩玩。刷新页面即可实时查看是否已经开播。</b>
+    <b>如果主播开播了，刷新页面后播放器会显示主播端画面，这代表正在直播。如果一直是在加载中的情况则为未开播。</b>
+    <div>
+
+  
+  <div class="footer">
+    <p>本站归属：饭团</p>
+  </div>
+  
+  <!-- -------------Layer引用---------------  -->
+  <script src="jquery.min.js"></script>
+  <script src="layer/layer.js"></script>
+  <script src="layer/extend/layer.ext.js"></script>
+  <!-- -------------Layer引用---------------  -->
+
+    <script>
+    function volumemax() {
+    dp.volume(1.0, true, false);
+    layer.msg('已经设置音量为最大100%', {icon: 1});
+    }
+    </script>
+
+<script>
+    const video = document.getElementById('dplayer');
+    video.onplay = function() {
+        if ("mediaSession" in navigator) {
+            setMediaSessionMetadata('“饭团直播间', '/bj.jpg');
+        }
+    };
+
+    function setMediaSessionMetadata(title, coverUrl) {
+        if ("mediaSession" in navigator) {
+            navigator.mediaSession.metadata = new MediaMetadata({
+                title: title,
+                artist: "饭团", // 如果是视频，可以将艺术家信息留空
+                album: "", // 如果是视频，可以将专辑信息留空
+                artwork: [{ src: coverUrl, sizes: "300x300", type: "image/png" }]
+            });
+        }
+    }
+</script>
+    
+<script>
+document.addEventListener('keydown', function(event) {
+  // 判断是否同时按下了 Ctrl 键
+  if (event.ctrlKey) {
+    switch (event.key) {
+      case 'q':
+        toggleFullScreen();
+        break;
+      default:
+        break;
+    }
+  }
+});
+// 切换全屏/退出全屏
+function toggleFullScreen() {
+  if (document.fullscreenElement || document.webkitFullscreenElement || document.mozFullScreenElement || document.msFullscreenElement) {
+    exitFullScreen();
+  } else {
+    enterFullScreen();
+  }
+}
+
+// 进入全屏模式
+function enterFullScreen() {
+  dp.fullScreen.request('browser');
+}
+
+// 退出全屏模式
+function exitFullScreen() {
+  dp.fullScreen.cancel('browser');
+}
+
+</script>
+    
+</body>
+</html>
